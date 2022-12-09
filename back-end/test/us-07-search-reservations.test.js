@@ -3,7 +3,7 @@ const request = require("supertest");
 const app = require("../src/app");
 const knex = require("../src/db/connection");
 
-describe("US-07 - Search reservation by phone number", () => {
+describe.skip("US-07 - Search reservation by phone number", () => {
   beforeAll(() => {
     return knex.migrate
       .forceFreeMigrationsLock()
