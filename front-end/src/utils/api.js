@@ -28,7 +28,8 @@ headers.append("Content-Type", "application/json");
  * @returns {Promise<Error|any>}
  *  a promise that resolves to the `json` data or an error.
  *  If the response is not in the 200 - 399 range the promise is rejected.
- */
+*/
+
 async function fetchJson(url, options, onCancel) {
   try {
     const response = await fetch(url, options);
@@ -56,7 +57,7 @@ async function fetchJson(url, options, onCancel) {
  * Retrieves all existing reservation.
  * @returns {Promise<[reservation]>}
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
- */
+*/
 
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
@@ -66,4 +67,18 @@ export async function listReservations(params, signal) {
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
+}
+
+export async function createReservation(reservation) {
+  const abortController = new AbortController();
+  const url = `${API_BASE_URL}/reservations/new`;
+  const signal = abortController.signal;
+  const options = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ data: reservation })
+  }
+  await fetchJson(url, options, signal)
 }
