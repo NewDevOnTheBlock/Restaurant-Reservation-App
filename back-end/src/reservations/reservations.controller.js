@@ -19,6 +19,12 @@ async function reservationExists(req, res, next) {
 
 // list out all reservations in the system
 async function list(req, res) {
+  // const { date } = req.query;
+  // if () {
+  //   const data = await service.list()
+  //   const filtered = data.filter(reservation => reservation.reservation_date === date)
+  //   res.json({ data: filtered })
+  // }
   const data = await service.list()
   res.json({ data })
 }
