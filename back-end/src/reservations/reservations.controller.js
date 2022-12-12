@@ -19,12 +19,7 @@ async function reservationExists(req, res, next) {
 
 // list out all reservations in the system
 async function list(req, res) {
-  // const { date } = req.query;
-  // if () {
-  //   const data = await service.list()
-  //   const filtered = data.filter(reservation => reservation.reservation_date === date)
-  //   res.json({ data: filtered })
-  // }
+  
   const data = await service.list()
   res.json({ data })
 }
@@ -45,12 +40,12 @@ async function create(req, res) {
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
-    hasProperties("first_name"),
-    hasProperties("last_name"),
-    hasProperties("mobile_number"),
-    hasProperties("reservation_date"),
-    hasProperties("reservation_time"),
-    hasProperties("people"),
+    asyncErrorBoundary(hasProperties("first_name")),
+    asyncErrorBoundary(hasProperties("last_name")),
+    asyncErrorBoundary(hasProperties("mobile_number")),
+    asyncErrorBoundary(hasProperties("reservation_date")),
+    asyncErrorBoundary(hasProperties("reservation_time")),
+    asyncErrorBoundary(hasProperties("people")),
     asyncErrorBoundary(create)
   ],
   read: [

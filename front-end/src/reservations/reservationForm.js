@@ -11,7 +11,7 @@ function ReservationForm({ formData, changeHandler, submitHandler }) {
 
     return (
         <form onSubmit={submitHandler} className="card" style={{padding: "24px"}}>
-            <label htmlFor="first_name" >
+            <label htmlFor="first_name" className="d-flex flex-column">
                 First Name:
                 <input
                     id="first_name"
@@ -21,9 +21,10 @@ function ReservationForm({ formData, changeHandler, submitHandler }) {
                     onChange={changeHandler}
                     value={formData.first_name}
                     required
-                    style={{width: "200px", marginLeft: "12px"}}
+                    style={{width: "300px"}}
                 />
             </label>
+            <br/>
             <label htmlFor="last_name" className="d-flex flex-column">
                 Last Name:
                 <input
@@ -34,9 +35,10 @@ function ReservationForm({ formData, changeHandler, submitHandler }) {
                     onChange={changeHandler}
                     value={formData.last_name}
                     required
-                    style={{width: "200px"}}
+                    style={{width: "300px"}}
                 />
             </label>
+            <br />
             <label htmlFor="mobile_number" className="d-flex flex-column">
                 Mobile Number:
                 <input
@@ -47,9 +49,10 @@ function ReservationForm({ formData, changeHandler, submitHandler }) {
                     onChange={changeHandler}
                     value={formData.mobile_number}
                     required
-                    style={{width: "200px"}}
+                    style={{width: "300px"}}
                 />
             </label>
+            <br />
             <label htmlFor="reservation_date" className="d-flex flex-column">
                 Reservation Date:
                 <input
@@ -60,9 +63,10 @@ function ReservationForm({ formData, changeHandler, submitHandler }) {
                     onChange={changeHandler}
                     value={formData.reservation_date}
                     required
-                    style={{width: "200px"}}
+                    style={{width: "300px"}}
                 />
             </label>
+            <br />
             <label htmlFor="reservation_time" className="d-flex flex-column">
                 Reservation Time:
                 <input
@@ -73,9 +77,10 @@ function ReservationForm({ formData, changeHandler, submitHandler }) {
                     onChange={changeHandler}
                     value={formData.reservation_time}
                     required
-                    style={{width: "200px"}}
+                    style={{width: "300px"}}
                 />
             </label>
+            <br />
             <label htmlFor="people" className="d-flex flex-column">
                 Party Size:
                 <input
@@ -86,9 +91,10 @@ function ReservationForm({ formData, changeHandler, submitHandler }) {
                     onChange={changeHandler}
                     value={formData.people}
                     required
-                    style={{width: "200px"}}
+                    style={{width: "300px"}}
                 />
             </label>
+            <br />
             <div className="d-flex" style={{margin: "12px"}}>
                 <button 
                     type="button" 
@@ -97,12 +103,14 @@ function ReservationForm({ formData, changeHandler, submitHandler }) {
                     onClick={goHome}>
                         Cancel
                 </button>
+
                 <button 
                     type="submit button" 
                     className="btn btn-primary"
                     style={{marginLeft: "12px"}}>
                         Submit
                 </button>
+
             </div>
             
         </form>
