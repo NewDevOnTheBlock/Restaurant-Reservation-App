@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import { useHistory } from "react-router-dom";
 
+import ReservationList from "./ReservationList";
+import { previous, today, next } from "../utils/date-time";
 /**
  * Defines the dashboard page.
  * @param date
@@ -24,31 +27,38 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
-  const listAllReservations = reservations.map(reservation => {
-    return (
-      <section className="card" style={{margin: "8px", padding: "8px"}}>
-        <div className="d-flex justify-content-between" style={{margin: "8px"}}>
-          <h3>{reservation.first_name + " " + reservation.last_name}</h3>
-          <h4>{reservation.reservation_id}</h4>
-        </div>
-        <p style={{margin: "8px"}}>Mobile: {reservation.mobile_number}</p>
-        <div className="d-flex">
-          <p style={{margin: "8px"}}>Date: {reservation.reservation_date}</p>
-          <p style={{margin: "8px"}}>time: {reservation.reservation_time}</p>
-          <p style={{margin: "8px"}}>Party Size: {reservation.people}</p>
-        </div>
-      </section>
-    )
-  })
-
+  const history = useHistory()
+  const now = today()
+  const yesterday = previous(today())
+  const tomorrow = next(today())
+  
   return (
     <main>
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Reservations for date</h4>
       </div>
+      <div className="d-flex">
+          <button 
+            className="btn btn-danger" 
+            onClick={() => history.go(`/reservations?date=${yesterday}`)}>
+              Yesterday
+          </button>
+
+          <button 
+            className="btn btn-primary" 
+            onClick={() => history.push(`/reservations?date=${now}`)}>
+              Today
+          </button>
+
+          <button 
+            className="btn btn-secondary" 
+            onClick={() => history.push(`/reservations?date=${tomorrow}`)}>
+              Tomorrow
+          </button>
+      </div>
       <ErrorAlert error={reservationsError} />
-      {listAllReservations}
+      <ReservationList reservations={reservations}/>
     </main>
   );
 }

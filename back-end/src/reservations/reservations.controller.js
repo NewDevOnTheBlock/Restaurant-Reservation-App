@@ -2,8 +2,9 @@ const service = require('./reservations.service')
 const hasProperties = require('../errors/hasProperties')
 const asyncErrorBoundary = require('../errors/asyncErrorBoundary')
 
-
 // validation middleware
+
+//validate reservation existence
 async function reservationExists(req, res, next) {
   const { reservationId } = req.params;
   const reservation = await service.read(reservationId);
@@ -14,12 +15,19 @@ async function reservationExists(req, res, next) {
   next({
     status: 404,
     message: `Reservation '${reservationId}' does not exist.`
-})
+  })
 }
+
+// validate people count is a number
+
+// validate time is a time
+
+// validate date is a date
 
 // list out all reservations in the system
 async function list(req, res) {
-  
+  // filter based on date from query params
+  // sort all reservations by time
   const data = await service.list()
   res.json({ data })
 }
