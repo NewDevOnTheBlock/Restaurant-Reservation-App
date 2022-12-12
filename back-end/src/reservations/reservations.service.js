@@ -4,6 +4,13 @@ function list() {
     return knex("reservations").select("*")
 }
 
+function read(reservationId) {
+    return knex("reservations")
+        .select("*")
+        .where({ reservation_id: reservationId })
+        .first()
+}
+
 function create(reservation) {
     return knex("reservations")
         .insert(reservation)
@@ -13,5 +20,6 @@ function create(reservation) {
 
 module.exports = {
     list,
-    create
+    create,
+    read
 }
