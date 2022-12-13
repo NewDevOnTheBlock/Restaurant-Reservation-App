@@ -5,8 +5,8 @@ function ReservationList({ reservations }) {
         return (
           <section key={index} className="card" style={{margin: "8px", padding: "8px"}}>
             <div className="d-flex justify-content-between" style={{margin: "8px"}}>
-              <h3>{reservation.first_name + " " + reservation.last_name}</h3>
-              <h4>{reservation.reservation_id}</h4>
+              <h2>{reservation.first_name + " " + reservation.last_name}</h2>
+              <h4>Reservation ID: {reservation.reservation_id}</h4>
             </div>
             <p style={{margin: "8px"}}>Mobile: {reservation.mobile_number}</p>
             <div className="d-flex">

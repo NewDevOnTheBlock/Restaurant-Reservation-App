@@ -13,6 +13,8 @@ import { previous, today, next } from "../utils/date-time";
 */
 
 function Dashboard({ date }) {
+  const history = useHistory()
+
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
 
@@ -27,11 +29,6 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
-  const history = useHistory()
-  const now = today()
-  const yesterday = previous(today())
-  const tomorrow = next(today())
-  
   return (
     <main>
       <h1>Dashboard</h1>
@@ -39,23 +36,9 @@ function Dashboard({ date }) {
         <h4 className="mb-0">Reservations for date</h4>
       </div>
       <div className="d-flex">
-          <button 
-            className="btn btn-danger" 
-            onClick={() => history.go(`/reservations?date=${yesterday}`)}>
-              Yesterday
-          </button>
-
-          <button 
-            className="btn btn-primary" 
-            onClick={() => history.push(`/reservations?date=${now}`)}>
-              Today
-          </button>
-
-          <button 
-            className="btn btn-secondary" 
-            onClick={() => history.push(`/reservations?date=${tomorrow}`)}>
-              Tomorrow
-          </button>
+          <button className="btn btn-danger" onClick={() => history.push(`?date=${previous(date)}`)}>Previous</button>
+          <button className="btn btn-primary" onClick={() => history.push(`?date=${today(date)}`)}>Today</button>
+          <button className="btn btn-secondary" onClick={() => history.push(`?date=${next(date)}`)}>Next</button>
       </div>
       <ErrorAlert error={reservationsError} />
       <ReservationList reservations={reservations}/>
