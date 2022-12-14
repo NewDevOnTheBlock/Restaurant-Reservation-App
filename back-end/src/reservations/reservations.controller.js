@@ -47,11 +47,25 @@ async function validateTime(req, res, next) {
 // validate date is a date
 async function validateDate(req, res, next) {
   const { data = {} } = req.body;
-  const date = data.reservation_date
+  const date = new Date(data.reservation_date)
+  const day = date.getUTCDay()
+
   if (!Date.parse(date)) {
     next({
       status: 400,
       message: "reservation_date must be a valid date format!"
+    })
+  }
+  if (day === 2) {
+    return next({
+      status: 400,
+      message: `Restaurant closed on Tuesday, please choose a different day of the week.`
+    })
+  }
+  if (date < new Date()) {
+    return next({
+      status: 400,
+      message: `Reservation must be a future date.`
     })
   }
   next()
