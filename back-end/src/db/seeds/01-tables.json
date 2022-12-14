@@ -1,0 +1,22 @@
+[
+    {
+        "table_name": "Palicky",
+        "capacity": 3
+    },
+    {
+        "table_name": "Sanchez",
+        "capacity": 1
+    },
+    {
+        "table_name": "Person",
+        "capacity": 3
+    },
+    {
+        "table_name": "Lion",
+        "capacity": 1
+    },
+    {
+        "table_name": "Charboneau",
+        "capacity": 7
+    }
+]
