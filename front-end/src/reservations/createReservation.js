@@ -32,11 +32,14 @@ function CreateReservation() {
     }
 
     return (
-        <ReservationForm 
-            formData={formData}
-            changeHandler={changeHandler}
-            submitHandler={submitHandler}
-        />
+        <section>
+            <h2 className="d-flex">Create a Reservation:</h2>
+            <ReservationForm 
+                formData={formData}
+                changeHandler={changeHandler}
+                submitHandler={submitHandler}
+            />
+        </section>
     )
 }
 
