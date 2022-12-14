@@ -22,7 +22,7 @@ async function reservationExists(req, res, next) {
 async function validatePeople(req, res, next) {
   const { data = {} } = req.body;
 
-  if (!data.people || data.people <= 0 || typeof data.people !== "number") {
+  if (!data.people || Number(data.people) <= 0 || typeof Number(data.people) !== "number") {
     next({
       status: 400,
       message: "people must be a valid number of one or more",
@@ -35,12 +35,19 @@ async function validatePeople(req, res, next) {
 async function validateTime(req, res, next) {
   const { data = {} } = req.body;
   const time = data.reservation_time
+  console.log(`time is a ${typeof time} with a value of: ${time}`)
   if (!time.match(/^\d{1,2}:\d{2}([ap]m)?$/)) {
     next({
       status: 400,
-      message: "reservation_time must be a valid time format!"
+      message: "reservation_time must be a valid time format"
     })
   }
+  if (time < "10:30" || time > "21:30") (
+    next({
+      status: 400,
+      message: "reservation_time must be within business hours"
+    })
+  )
   next()
 }
 
