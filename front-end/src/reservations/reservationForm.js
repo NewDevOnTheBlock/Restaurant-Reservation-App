@@ -86,6 +86,7 @@ function ReservationForm({ formData, changeHandler, submitHandler }) {
                 <input
                     id="people"
                     type="number"
+                    min="1"
                     name="people"
                     placeholder={formData.people || "Party Size"}
                     onChange={changeHandler}

@@ -82,3 +82,17 @@ export async function createReservation(reservation) {
   }
   await fetchJson(url, options, signal)
 }
+
+export async function createTable(table) {
+  const abortController = new AbortController();
+  const url = `${API_BASE_URL}/tables`;
+  const signal = abortController.signal;
+  const options = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ data: table })
+  }
+  await fetchJson(url, options, signal)
+}

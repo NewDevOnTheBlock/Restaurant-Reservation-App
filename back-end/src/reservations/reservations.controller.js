@@ -1,4 +1,5 @@
 const service = require("./reservations.service");
+const reservationService = require("../reservations/reservations.service")
 const hasProperties = require("../errors/hasProperties");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
@@ -14,20 +15,19 @@ async function reservationExists(req, res, next) {
   }
   next({
     status: 404,
-    message: `Reservation '${reservationId}' does not exist.`,
+    message: `Reservation '${reservation_id}' does not exist.`,
   });
 }
 
 // validate people count is a number
-async function validatePeople(req, res, next) {
+function validatePeople(req, res, next) {
   const { data = {} } = req.body;
 
-  if (!data.people || Number(data.people) <= 0 || typeof Number(data.people) !== "number") {
-    next({
-      status: 400,
-      message: "people must be a valid number of one or more",
+  if (data.people === 0 || !Number.isInteger(data.people))
+    return next({ 
+      status: 400, 
+      message: `Invalid: people must be an integer greater than zero` 
     });
-  }
   next();
 }
 
@@ -35,7 +35,6 @@ async function validatePeople(req, res, next) {
 async function validateTime(req, res, next) {
   const { data = {} } = req.body;
   const time = data.reservation_time
-  console.log(`time is a ${typeof time} with a value of: ${time}`)
   if (!time.match(/^\d{1,2}:\d{2}([ap]m)?$/)) {
     next({
       status: 400,
