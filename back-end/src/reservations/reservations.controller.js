@@ -84,8 +84,8 @@ async function list(req, res) {
   const queryDate = req.query.date;
   const data = await service.list();
   const newData = data.filter(
-    ({ reservation_date: date }) =>
-      JSON.stringify(date).slice(1, 11) == queryDate
+    ({ reservation_date: date }) => queryDate ?
+      JSON.stringify(date).slice(1, 11) == queryDate : () => true
   );
   newData.sort((a, b) => {
     let c = a.reservation_time
