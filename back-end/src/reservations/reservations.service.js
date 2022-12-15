@@ -4,10 +4,10 @@ function list() {
     return knex("reservations").select("*")
 }
 
-function read(reservationId) {
+function read(reservation_id) {
     return knex("reservations")
         .select("*")
-        .where({ reservation_id: reservationId })
+        .where({ reservation_id: reservation_id })
         .first()
 }
 

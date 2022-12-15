@@ -6,8 +6,8 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 //validate reservation existence
 async function reservationExists(req, res, next) {
-  const { reservationId } = req.params;
-  const reservation = await service.read(reservationId);
+  const { reservation_id } = req.params;
+  const reservation = await service.read(reservation_id);
   if (reservation) {
     res.locals.reservation = reservation;
     return next();

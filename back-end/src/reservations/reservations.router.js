@@ -3,7 +3,7 @@ const controller = require("./reservations.controller");
 const methodNotAllowed = require("../errors/methodNotAllowed")
 
 // look at a specific reservation by ID
-router.route("/:reservationId")
+router.route("/:reservation_id")
     .get(controller.read)
     .all(methodNotAllowed)
 
