@@ -23,7 +23,7 @@ async function reservationExists(req, res, next) {
 function validatePeople(req, res, next) {
   const { data = {} } = req.body;
 
-  if (data.people === 0 || !Number.isInteger(data.people))
+  if (!data.people || Number.isNaN(data.people))
     return next({ 
       status: 400, 
       message: `Invalid: people must be an integer greater than zero` 
@@ -79,14 +79,12 @@ async function validateDate(req, res, next) {
 
 // list out all reservations in the system
 async function list(req, res) {
-  // filter based on date from query params
-  // sort all reservations by time
   const queryDate = req.query.date;
   const data = await service.list();
   const newData = data.filter(
-    ({ reservation_date: date }) => queryDate ?
-      JSON.stringify(date).slice(1, 11) == queryDate : () => true
-  );
+      ({ reservation_date: date }) => JSON.stringify(date).slice(1, 11) == queryDate
+    );
+
   newData.sort((a, b) => {
     let c = a.reservation_time
     let d = b.reservation_time
@@ -98,6 +96,7 @@ async function list(req, res) {
       return -1
     }
   })
+
   res.json({ data: newData });
 }
 

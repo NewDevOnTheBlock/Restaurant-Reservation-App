@@ -45,15 +45,15 @@ function validateCapacity(req, res, next) {
 // list all tables
 async function list(req, res) {
     const data = await service.list()
-    data.sort((a, b) => {
-        if (a.table_name > b.table_name) {
-            return 1
-        } else if (a.table_name === b.table_name) {
-            return 0
-        } else {
-            return -1
-        }
-    })
+    // data.sort((a, b) => {
+    //     if (a.table_name > b.table_name) {
+    //         return 1
+    //     } else if (a.table_name === b.table_name) {
+    //         return 0
+    //     } else {
+    //         return -1
+    //     }
+    // })
     res.json({ data })
 }
 

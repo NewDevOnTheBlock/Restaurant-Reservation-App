@@ -59,6 +59,7 @@ async function fetchJson(url, options, onCancel) {
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
 */
 
+// retrieve a list of all reservations
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
@@ -67,6 +68,13 @@ export async function listReservations(params, signal) {
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
+}
+
+// retrieve a list of all tables
+export async function listTables(signal) {
+  const url = new URL(`${API_BASE_URL}/tables`);
+
+  return await fetchJson(url, { headers, signal }, []);
 }
 
 export async function createReservation(reservation) {
@@ -80,7 +88,7 @@ export async function createReservation(reservation) {
     },
     body: JSON.stringify({ data: reservation })
   }
-  await fetchJson(url, options, signal)
+  return await fetchJson(url, options, signal)
 }
 
 export async function createTable(table) {
@@ -94,5 +102,5 @@ export async function createTable(table) {
     },
     body: JSON.stringify({ data: table })
   }
-  await fetchJson(url, options, signal)
+  return await fetchJson(url, options, signal)
 }
