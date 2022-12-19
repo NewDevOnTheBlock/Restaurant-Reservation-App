@@ -3,7 +3,7 @@ const request = require("supertest");
 const app = require("../src/app");
 const knex = require("../src/db/connection");
 
-describe.skip("US-05 - Finish an occupied table", () => {
+describe.only("US-05 - Finish an occupied table", () => {
   beforeAll(() => {
     return knex.migrate
       .forceFreeMigrationsLock()

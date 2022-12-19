@@ -131,6 +131,17 @@ async function seatTable(req, res) {
     res.json({ data: updatedInfo })
 }
 
+async function finishTable(req, res, next) {
+    const { data = {} } = req.body
+    if (!data.reservation_id) {
+        return next({
+            status: 400,
+            message: "Table is not occupied."
+        })
+    }
+    next()
+}
+
 module.exports = {
     list: asyncErrorBoundary(list),
     create: [
