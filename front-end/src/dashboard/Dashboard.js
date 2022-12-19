@@ -44,7 +44,7 @@ function Dashboard({ date }) {
 
   const listAllTables = tables.map(table => {
     return (
-      <TableList table={table} key={table.table_id}/>
+      <TableList table={table} loadDashboard={loadDashboard} key={table.table_id}/>
     )
   })
 

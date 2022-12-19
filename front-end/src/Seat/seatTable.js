@@ -38,8 +38,6 @@ function SeatTable() {
     const submitHandler = async (event) => {
         event.preventDefault()
         const abortController = new AbortController()
-        console.log("Reservation Id", reservationId)
-        console.log("TableID", tableId)
         await seatTable(tableId, reservationId)
         history.push("/")
         return () => abortController.abort()

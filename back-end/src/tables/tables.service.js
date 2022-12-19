@@ -28,11 +28,18 @@ function seatTable(updatedTable) {
         .then(updatedRecords => updatedRecords[0])
 }
 
-
+function finishTable(updatedTable) {
+    return knex("tables")
+        .select("*")
+        .where({ table_id: updatedTable.table_id })
+        .update(updatedTable, "*")
+        .then(updatedRecords => updatedRecords[0])
+}
 
 module.exports = {
     list,
     create,
     read,
-    seatTable
+    seatTable,
+    finishTable
 }

@@ -110,13 +110,26 @@ export async function seatTable(table_id, reservation_id) {
   const abortController = new AbortController()
   const url = `${API_BASE_URL}/tables/${table_id}/seat`
   const signal = abortController.signal
-  console.log("Seat table: ", reservation_id, table_id)
   const options = {
     method: "PUT",
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ data: { reservation_id } })
+  }
+  return await fetchJson(url, options, signal)
+}
+
+export async function finishTable(table_id) {
+  const abortController = new AbortController()
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`
+  const signal = abortController.signal
+  const options = {
+    method: "PUT",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ data: { reservation_id: null } }) 
   }
   return await fetchJson(url, options, signal)
 }

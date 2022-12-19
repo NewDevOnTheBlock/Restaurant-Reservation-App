@@ -132,14 +132,21 @@ async function seatTable(req, res) {
 }
 
 async function finishTable(req, res, next) {
-    const { data = {} } = req.body
-    if (!data.reservation_id) {
+    const { table } = res.locals
+    const updatedInfo =  {
+        ...table,
+        table_id: table.table_id,
+        reservation_id: null
+    }
+    if (res.locals.table.reservation_id) {
+        await service.finishTable(updatedInfo)
+        res.sendStatus(200)
+    } else {
         return next({
             status: 400,
             message: "Table is not occupied."
         })
     }
-    next()
 }
 
 module.exports = {
@@ -164,6 +171,9 @@ module.exports = {
         asyncErrorBoundary(reservationIdExists),
         asyncErrorBoundary(validateTableCapacity),
         asyncErrorBoundary(seatTable)
-    ]
-
+    ],
+    finishTable: [
+        asyncErrorBoundary(tableExists),
+        asyncErrorBoundary(finishTable)
+    ],
 }

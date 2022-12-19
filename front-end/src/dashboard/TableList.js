@@ -1,12 +1,25 @@
 import React from 'react'
+import { finishTable } from '../utils/api'
 
-function TableList({ table }) {
+function TableList({ table, loadDashboard }) {
     const {
         table_id,
         table_name,
         capacity,
         reservation_id,
     } = table
+
+    const finishHandler = async (table_id) => {
+        const confirmBox = window.confirm(
+            "Is this table ready to seat new guests? This cannot be undone."
+        );
+        if (confirmBox === true) {
+            finishTable(table_id)
+                .then(loadDashboard)
+                .catch((error) => console.log(error));
+        }
+        return null;
+    }
 
     return (
         <tr>
@@ -17,7 +30,7 @@ function TableList({ table }) {
                 {reservation_id ? "Occupied" : "Free"}
             </td>
             <td data-table-id-finish={table_id}>
-                <button className="btn btn-warning">Finish</button>
+                <button onClick={() => finishHandler(table_id)} className="btn btn-warning">Finish</button>
             </td>
         </tr>
     )

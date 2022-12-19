@@ -3,7 +3,7 @@ const request = require("supertest");
 const app = require("../src/app");
 const knex = require("../src/db/connection");
 
-describe.skip("US-06 - Reservation status", () => {
+describe.only("US-06 - Reservation status", () => {
   beforeAll(() => {
     return knex.migrate
       .forceFreeMigrationsLock()
