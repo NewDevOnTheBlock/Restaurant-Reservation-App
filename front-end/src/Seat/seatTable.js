@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import ErrorAlert from '../layout/ErrorAlert'
-import { listTables } from '../utils/api'
+import { listTables, seatTable } from '../utils/api'
 
 function SeatTable() {
     const history = useHistory()
     const { reservation_id } = useParams()
     const reservationId = Number(reservation_id)
 
+    const [tableId, setTableId] = useState("")
     const [tables, setTables] = useState([])
     const [updateTableError, setUpdateTableError] = useState(null)
 
@@ -30,15 +31,30 @@ function SeatTable() {
         )
     })
 
+    const changeHandler = ({ target }) => {
+        setTableId(Number(target.value))
+    }
+
+    const submitHandler = async (event) => {
+        event.preventDefault()
+        const abortController = new AbortController()
+        console.log("Reservation Id", reservationId)
+        console.log("TableID", tableId)
+        await seatTable(tableId, reservationId)
+        history.push("/")
+        return () => abortController.abort()
+    }
+
     return (
         <section>
             <h2>Seat a Table</h2>
             <ErrorAlert error={updateTableError}/>
-            <form>
+            <br />
+            <form onSubmit={submitHandler}>
                 <select
                     name="table_id"
+                    onChange={changeHandler}
                     required
-                    
                 >
                     <option defaultValue={0}>--Select--</option>
                     {selectOptions}
@@ -50,7 +66,12 @@ function SeatTable() {
                 >
                     Cancel
                 </button>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button 
+                    type="submit" 
+                    className="btn btn-primary"
+                >
+                    Submit
+                </button>
             </form>
         </section>
     )

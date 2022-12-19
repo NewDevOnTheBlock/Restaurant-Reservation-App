@@ -23,11 +23,13 @@ async function reservationExists(req, res, next) {
 function validatePeople(req, res, next) {
   const { data = {} } = req.body;
 
-  if (!data.people || Number.isNaN(data.people))
+  if (!data.people || typeof data.people !== "number") {
     return next({ 
       status: 400, 
       message: `Invalid: people must be an integer greater than zero` 
     });
+  }
+
   next();
 }
 
@@ -35,19 +37,21 @@ function validatePeople(req, res, next) {
 async function validateTime(req, res, next) {
   const { data = {} } = req.body;
   const time = data.reservation_time
+
   if (!time.match(/^\d{1,2}:\d{2}([ap]m)?$/)) {
     next({
       status: 400,
       message: "reservation_time must be a valid time format"
     })
   }
-  if (time < "10:30" || time > "21:30") (
+  if (time < "10:30" || time > "21:30") {
     next({
       status: 400,
       message: "reservation_time must be within business hours"
     })
-  )
-  next()
+  }
+
+  next();
 }
 
 // validate date is a date
@@ -74,7 +78,8 @@ async function validateDate(req, res, next) {
       message: `Reservation must be a future date.`
     })
   }
-  next()
+
+  next();
 }
 
 // list out all reservations in the system
