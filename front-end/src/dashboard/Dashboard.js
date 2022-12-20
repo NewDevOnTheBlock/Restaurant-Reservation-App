@@ -24,6 +24,7 @@ function Dashboard({ date }) {
   useEffect(loadDashboard, [date]);
 
   function loadDashboard() {
+    console.log("Load dashboard called here")
     const abortController = new AbortController();
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
@@ -70,6 +71,7 @@ function Dashboard({ date }) {
             <th scope="col">Date</th>
             <th scope="col">Time</th>
             <th scope="col">Party Size</th>
+            <th scope="col">Status</th>
             <th scope="col">Seat Table</th>
           </tr>
         </thead>
@@ -81,11 +83,11 @@ function Dashboard({ date }) {
       <table className="table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Number</th>
-            <th>Table Capacity</th>
-            <th>Availability</th>
-            <th>Meal Status</th>
+            <th scope="col">ID</th>
+            <th scope="col">Number</th>
+            <th scope="col">Table Capacity</th>
+            <th scope="col">Availability</th>
+            <th scope="col">Meal Status</th>
           </tr>
         </thead>
         <tbody>

@@ -49,7 +49,8 @@ function validateNameLength(req, res, next) {
 // validate capacity is integer
 function validateCapacity(req, res, next) {
     const { data = {} } = req.body
-    // console.log(data.capacity)
+    console.log(typeof data.capacity)
+    console.log(Number.isNaN(data.capacity))
     if (!data.capacity || typeof data.capacity !== "number" || data.capacity < 1) {
         return next({
             status: 400,
@@ -104,6 +105,30 @@ function validateOccupation(req, res, next) {
     next();
 }
 
+function finishOccupiedTable(req, res, next) {
+    const {table} = res.locals
+
+    if (!table.reservation_id) {
+        return next({
+            status: 400,
+            message: "Table is not occupied"
+        })
+    }
+    next()
+}
+
+function isTableSeated(req, res, next) {
+    const { status } = res.locals.reservation
+
+    if (status === "seated") {
+        return next({
+            status: 400,
+            message: "Table already seated"
+        })
+    }
+    next()
+}
+
 // list all tables
 async function list(req, res) {
     const data = await service.list()
@@ -140,7 +165,7 @@ async function finishTable(req, res, next) {
     }
     if (res.locals.table.reservation_id) {
         await service.finishTable(updatedInfo)
-        res.sendStatus(200)
+        res.status(200).json({})
     } else {
         return next({
             status: 400,
@@ -169,11 +194,13 @@ module.exports = {
         asyncErrorBoundary(tableExists),
         asyncErrorBoundary(validateOccupation),
         asyncErrorBoundary(reservationIdExists),
+        asyncErrorBoundary(isTableSeated),
         asyncErrorBoundary(validateTableCapacity),
         asyncErrorBoundary(seatTable)
     ],
     finishTable: [
         asyncErrorBoundary(tableExists),
+        asyncErrorBoundary(finishOccupiedTable),
         asyncErrorBoundary(finishTable)
     ],
 }

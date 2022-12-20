@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router'
 import ErrorAlert from '../layout/ErrorAlert'
-import { listTables, seatTable } from '../utils/api'
+import { listTables, seatTable, updateStatus } from '../utils/api'
 
 function SeatTable() {
     const history = useHistory()
@@ -38,8 +38,13 @@ function SeatTable() {
     const submitHandler = async (event) => {
         event.preventDefault()
         const abortController = new AbortController()
-        await seatTable(tableId, reservationId)
-        history.push("/")
+        try {
+            await seatTable(tableId, reservationId)
+            await updateStatus(reservationId)
+            history.push("/")
+        } catch (error) {
+            setUpdateTableError(error)
+        }
         return () => abortController.abort()
     }
 

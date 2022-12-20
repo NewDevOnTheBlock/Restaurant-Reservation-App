@@ -105,6 +105,20 @@ export async function createTable(table) {
   return await fetchJson(url, options, signal)
 }
 
+export async function updateStatus(reservation_id) {
+  const abortController = new AbortController()
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`
+  const signal = abortController.signal
+  const options = {
+    method: "PUT",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ data: { status: "seated" }})
+  }
+  return await fetchJson(url, options, signal)
+}
+
 // update table with reservation id
 export async function seatTable(table_id, reservation_id) {
   const abortController = new AbortController()
@@ -121,15 +135,29 @@ export async function seatTable(table_id, reservation_id) {
 }
 
 export async function finishTable(table_id) {
-  const abortController = new AbortController()
+  console.log("Finish table called")
+  // const abortController = new AbortController()
   const url = `${API_BASE_URL}/tables/${table_id}/seat`
+  // const signal = abortController.signal
+  const options = {
+    method: "DELETE",
+    // headers: {
+    //   'Content-Type': 'application/json'
+    // },
+  }
+  return await fetchJson(url, options)
+}
+
+export async function finishStatus(reservation_id) {
+  const abortController = new AbortController()
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`
   const signal = abortController.signal
   const options = {
-    method: "PUT",
+    method: "DELETE",
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ data: { reservation_id: null } }) 
+    body: JSON.stringify({ data: { status: "finished" } })
   }
   return await fetchJson(url, options, signal)
 }

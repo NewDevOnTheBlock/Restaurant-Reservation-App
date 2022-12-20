@@ -1,5 +1,5 @@
 import React from 'react'
-import { finishTable } from '../utils/api'
+import { finishTable, finishStatus } from '../utils/api'
 
 function TableList({ table, loadDashboard }) {
     const {
@@ -9,14 +9,24 @@ function TableList({ table, loadDashboard }) {
         reservation_id,
     } = table
 
+
     const finishHandler = async (table_id) => {
+        console.log("finish handler called")
         const confirmBox = window.confirm(
             "Is this table ready to seat new guests? This cannot be undone."
         );
+        console.log("clicked okay")
         if (confirmBox === true) {
-            finishTable(table_id)
-                .then(loadDashboard)
-                .catch((error) => console.log(error));
+            try {
+                await finishStatus(reservation_id)
+                console.log("Finish status done")
+                await finishTable(table_id)
+                console.log("about to call loadDashboard")
+                console.log(loadDashboard)
+                await loadDashboard()
+            } catch (error) {
+                console.log(error)
+            }
         }
         return null;
     }
@@ -29,9 +39,10 @@ function TableList({ table, loadDashboard }) {
             <td data-table-id-status={`${reservation_id}`}>
                 {reservation_id ? "Occupied" : "Free"}
             </td>
-            <td data-table-id-finish={table_id}>
+            {reservation_id ? <td data-table-id-finish={table_id}>
                 <button onClick={() => finishHandler(table_id)} className="btn btn-warning">Finish</button>
-            </td>
+            </td> :
+            null}
         </tr>
     )
 }
